@@ -1,25 +1,29 @@
-// const { GraphQLID, GraphQLString, GraphQLInt } = require('graphql');
-// const mongoose=require('mongoose');
+const { GraphQLID, GraphQLString, GraphQLInt } = require('graphql');
+const mongoose=require('mongoose');
 
-// const PolicySchema=new mongoose.Schema({
-//     pid:{
-//         type:GraphQLID,
-//         required:true
-//     },
-//     issueDate:{
-//         type:GraphQLString,
-//         required:true
-//     },
-//     premium:{
-//         type:GraphQLInt,
-//         required:true
-//     },
-//     sumEnsured:{
-//         type:GraphQLInt,
-//         required:true
-//     }
-// })
+const PolicySchema=new mongoose.Schema({
+    pid:{
+        type:String,
+        required:true
+    },
+    // cid:{
+    //     type:String,
+    //     required:true
+    // },
+    issueDate:{
+        type:String,
+        required:true
+    },
+    premium:{
+        type:Number,
+        required:true
+    },
+    sumEnsured:{
+        type:Number,
+        required:true
+    }
+})
 
-// const Policy=mongoose.model('policy',PolicySchema);
+const Policy=mongoose.model('policy',PolicySchema);
 
-// module.exports=Policy;
+module.exports=Policy;

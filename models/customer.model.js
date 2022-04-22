@@ -1,33 +1,33 @@
-// const { GraphQLID, GraphQLString } = require('graphql');
-// const mongoose=require('mongoose');
+const { GraphQLID, GraphQLString } = require('graphql');
+const mongoose=require('mongoose');
 
-// const CustomerSchema=new mongoose.Schema({
-//     cid:{
-//         type:GraphQLID,
-//         required:true
-//     },
+const CustomerSchema=new mongoose.Schema({
+    cid:{
+        type:String,
+        required:true
+    },
 
-//     name:{
-//         type:GraphQLString,
-//         required:true
-//     },
+    name:{
+        type:String,
+        required:true
+    },
 
-//     dob:{
-//         type:GraphQLString,
-//         required:true
-//     },
+    dob:{
+        type:String,
+        required:true
+    },
 
-//     gender:{
-//         type:GraphQLString,
-//         required:true
-//     },
+    gender:{
+        type:String,
+        required:true
+    },
 
-//     pid:{
-//         type:GraphQLID,
-//         required:true
-//     }
-// })
+    pid:{
+        type:String,
+        required:true
+    }
+})
 
-// const Customer=mongoose.model('customer',CustomerSchema);
+const Customer=mongoose.model('customer',CustomerSchema);
 
-// module.exports=Customer;
+module.exports=Customer;
