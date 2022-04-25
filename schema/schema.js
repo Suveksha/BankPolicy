@@ -3,6 +3,9 @@ const lodash=require('lodash');
 
 const Policy=require('../models/policy.model');
 const Customer=require('../models/customer.model');
+const Relation=require('../models/relation.model');
+const { QueryDocumentKeys } = require('graphql/language/ast');
+const { query } = require('express');
 
 const {
     GraphQLSchema,
@@ -34,7 +37,7 @@ const PolicyType=new GraphQLObjectType({
     name:'Policy',
     fields:()=>({
         pid:{type:GraphQLID},
-        cid:{type:GraphQLID},
+        // cid:{type:GraphQLID},
         issueDate:{type:GraphQLString},
         premium:{type:GraphQLInt},
         sumEnsured:{type:GraphQLInt},
@@ -55,17 +58,43 @@ const CustomerType=new GraphQLObjectType({
         name:{type:GraphQLString},
         dob:{type:GraphQLString},
         gender:{type:GraphQLString},
+        // pid:{type:GraphQLID},
+        // policy_availed:{
+        //     type:new GraphQLList(PolicyType),
+        //     resolve(parent,args)
+        //     {
+        //         // return lodash.filter(policies,(policy)=>{
+        //         //     if(policy.pid==parent.pid)
+        //         //     return policy;
+        //         // })
+
+        //         return Policy.find({pid:parent.pid})
+        //     }
+        // }
+    })
+})
+
+
+const RelationType=new GraphQLObjectType({
+    name:'Relation',
+    fields:()=>({
         pid:{type:GraphQLID},
+        cid:{type:GraphQLID},
+        role:{type:GraphQLString},
+
         policy_availed:{
             type:new GraphQLList(PolicyType),
-            resolve(parent,args)
-            {
-                // return lodash.filter(policies,(policy)=>{
-                //     if(policy.pid==parent.pid)
-                //     return policy;
-                // })
-
+            resolve(parent,args){
+                console.log(parent.pid)
                 return Policy.find({pid:parent.pid})
+            }
+        },
+
+        customer_details:{
+            type:CustomerType,
+            resolve(parent,args){
+                console.log(parent.cid)
+                return Customer.findOne({cid:parent.cid})
             }
         }
     })
@@ -105,7 +134,24 @@ const RootQuery=new GraphQLObjectType({
                 // return lodash.find(customer,{cid:args.cid})
                 return Customer.findOne({cid:args.cid})
             }
+        },
+
+        relation:{
+            type:new GraphQLList(RelationType),
+            args:{
+                pid:{type:GraphQLID},
+                cid:{type:GraphQLID}
+            },
+            resolve(parent,args){
+               console.log(args,"Hello")
+               if(args.pid!=null)
+               return Relation.find({pid:args.pid})
+               else
+               return Relation.find({cid:args.cid})
+            }
         }
+
+        
     }
 })
 
@@ -152,6 +198,24 @@ const Mutation=new GraphQLObjectType({
                 })
 
                 return policy.save();
+            }
+        },
+
+        addRelation:{
+            type:RelationType,
+            args:{
+                pid:{type:GraphQLID},
+                cid:{type:GraphQLID},
+                role:{type:GraphQLString}
+            },
+
+            resolve(parent,args){
+                let relation=new Relation({
+                    pid:args.pid,
+                    cid:args.cid,
+                    role:args.role
+                })
+                 return relation.save();
             }
         }
     }

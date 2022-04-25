@@ -20,12 +20,12 @@ const CustomerSchema=new mongoose.Schema({
     gender:{
         type:String,
         required:true
-    },
-
-    pid:{
-        type:String,
-        required:true
     }
+
+    // pid:{
+    //     type:String,
+    //     required:true
+    // }
 })
 
 const Customer=mongoose.model('customer',CustomerSchema);

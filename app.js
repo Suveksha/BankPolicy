@@ -20,14 +20,14 @@ app.use('/bank', graphqlHTTP({
     graphiql:true
 }))
 
-app.use(function (req, res, next) {
-    let originalSend = res.send;
-    res.send = function (data) {
-        console.log(data);
-        originalSend.apply(res, Array.from(arguments));
-    }
-    next();
-})
+// app.use(function (req, res, next) {
+//     let originalSend = res.send;
+//     res.send = function (data) {
+//         console.log(data);
+//         originalSend.apply(res, Array.from(arguments));
+//     }
+//     next();
+// })
 
 app.listen(4000, ()=>{
     console.log("Listening to port 4000");
